@@ -1,0 +1,6 @@
+github.com/jinzhu/copier v0.4.0 h1:w3ciUoD19shMCRargcpm0cm91ytaBhDvuRpz1ODO/U8=
+github.com/jinzhu/copier v0.4.0/go.mod h1:DfbEm0FYsaqBcKcFuvmOZb218JkPGtvSHsKg8S8hyyg=
+github.com/jmCodeCraft/go-network v0.0.0-20240219071041-8f0cb0dd77e9 h1:Zn98ZA5IRcSkGUlOM95SzMZIHMdhj+PNaIckWdkLoEo=
+github.com/jmCodeCraft/go-network v0.0.0-20240219071041-8f0cb0dd77e9/go.mod h1:J6iKNWevjlbYojGHT/oNSzHSPuI3Bs0X3QI1MgKsfAU=
+github.com/mroth/weightedrand v1.0.0 h1:V8JeHChvl2MP1sAoXq4brElOcza+jxLkRuwvtQu8L3E=
+github.com/mroth/weightedrand v1.0.0/go.mod h1:3p2SIcC8al1YMzGhAIoXD+r9olo/g/cdJgAD905gyNE=
