@@ -1,7 +1,7 @@
 TS2G2_REPO = https://github.com/graph-massivizer/ts2g2.git
 TS2G2_FOLDER = ts2g2_demo/ts2g2/
-# SUMMARIZER_REPO = https://github.com/graph-massivizer/multi-summaries.git
-# SUMMARIZER_FOLDER = multi-summaries_demo/multi-summaries/
+SUMMARIZER_REPO = https://github.com/R-van-Bakel/Multi-Summaries.git
+SUMMARIZER_FOLDER = multi-summaries_demo/multi-summaries/
 PWD = $(shell pwd)
 IMAGE = scrutinizer-demo-image
 
@@ -15,11 +15,11 @@ clone:
 	else \
 		git clone --depth=1 $(TS2G2_REPO) $(TS2G2_FOLDER); \
 	fi
-# 	@if test -d $(SUMMARIZER_FOLDER); then \
-# 		echo "Multi-summaries is already cloned. Skipping cloning."; \
-# 	else \
-# 		git clone --depth=1 $(SUMMARIZER_REPO) $(SUMMARIZER_FOLDER); \
-# 	fi
+	@if test -d $(SUMMARIZER_FOLDER); then \
+		echo "Multi-summaries is already cloned. Skipping cloning."; \
+	else \
+		git clone --depth=1 $(SUMMARIZER_REPO) $(SUMMARIZER_FOLDER); \
+	fi
 
 build:
 	docker buildx build -t $(IMAGE) . --load
@@ -31,12 +31,12 @@ clean:
 	else \
 		echo "Local TS2G2 repository not found. Skipping removing."; \
 	fi
-# 	@if test -d $(SUMMARIZER_FOLDER); then \
-# 		echo Removing local multi-summaries repository; \
-# 		rm -rf $(SUMMARIZER_FOLDER); \
-# 	else \
-# 		echo "Local multi-summaries repository not found. Skipping removing."; \
-# 	fi
+	@if test -d $(SUMMARIZER_FOLDER); then \
+		echo Removing local multi-summaries repository; \
+		rm -rf $(SUMMARIZER_FOLDER); \
+	else \
+		echo "Local multi-summaries repository not found. Skipping removing."; \
+	fi
 	@if [ -n "$$(docker images -q $(IMAGE))" ]; then \
 		echo Removing docker image: $(IMAGE); \
 		docker rmi -f $(IMAGE); \

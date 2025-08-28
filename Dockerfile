@@ -4,6 +4,14 @@ FROM ubuntu:22.04
 RUN apt-get update && \
     apt-get install -y wget
 
+# Install git
+RUN apt-get update && \
+    apt-get install -y git
+
+# Install time
+RUN apt update && \
+    apt install time
+
 # Install Python
 RUN apt-get update && \
     apt-get install -y python3.10 python3.10-venv python3-pip
@@ -34,11 +42,15 @@ RUN go mod download
 RUN python3 -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 
+# Expose a port to access Jupyter notebook later
 EXPOSE 8888
 
 # Download Python dependencies
-# RUN pip install --no-cache-dir -r ts2g2_demo/ts2g2/ -r multi-summaries_demo/multi-summaries/
+# RUN pip install --no-cache-dir -r ts2g2_demo/ts2g2/requirements.txt -r ts2g2_demo/ts2g2/tutorials/requirements.txt multi-summaries_demo/multi-summaries/code/python/
+# TODO, some of the packages have conflicting constraints (that's why we install them one after another). This can likely be fixed on the package side with looser constraints.
 RUN pip install --no-cache-dir -r ts2g2_demo/ts2g2/requirements.txt
-RUN pip install --no-cache-dir matplotlib scikit-learn scipy
+RUN pip install --no-cache-dir -r ts2g2_demo/ts2g2/tutorials/requirements.txt
+RUN pip install --no-cache-dir multi-summaries_demo/multi-summaries/code/python/
+# RUN pip install --no-cache-dir matplotlib scikit-learn scipy
 
 CMD ["bash"]
