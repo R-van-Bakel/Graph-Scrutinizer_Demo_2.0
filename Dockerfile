@@ -46,11 +46,12 @@ ENV PATH="/venv/bin:$PATH"
 EXPOSE 8888
 
 # Download Python dependencies
-# RUN pip install --no-cache-dir -r ts2g2_demo/ts2g2/requirements.txt -r ts2g2_demo/ts2g2/tutorials/requirements.txt multi-summaries_demo/multi-summaries/code/python/
-# TODO, some of the packages have conflicting constraints (that's why we install them one after another). This can likely be fixed on the package side with looser constraints.
 RUN pip install --no-cache-dir -r ts2g2_demo/ts2g2/requirements.txt
 RUN pip install --no-cache-dir -r ts2g2_demo/ts2g2/tutorials/requirements.txt
-RUN pip install --no-cache-dir multi-summaries_demo/multi-summaries/code/python/
-# RUN pip install --no-cache-dir matplotlib scikit-learn scipy
+RUN pip install --no-cache-dir ts2g2_demo/ts2g2/ multi-summaries_demo/multi-summaries/code/python/
+RUN pip install --no-cache-dir sktime gensim
+
+# Add ts2g2 to the Python path (otherwise some demos won't work)
+ENV PYTHONPATH="/app/ts2g2_demo/ts2g2"
 
 CMD ["bash"]
