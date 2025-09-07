@@ -36,11 +36,11 @@ func main() {
 	// ####################
 
 	// >>> TEST 1 >>>
-	// For the first test, please run a few of the classic graph generators and look at the output.
-	// We recommend keeping the graphs fairly small for this test.
+	// For the first test, please run all of the classic graph generators and look at the output.
+	// We recommend keeping the graphs fairly small for this test, to make the outputs more readable.
 	// Are the functions intuitive? Are the outputs interpretable?
 
-	var run_test__classic_graph_generator = true // Set this to true to run this test
+	var run_test__classic_graph_generator = false // Set this to true to run this test
 	if run_test__classic_graph_generator {
 		var classic_graph = model.CycleGraph(5) // Edit this line
 
@@ -56,9 +56,9 @@ func main() {
 
 	// >>> TEST 2 >>>
 	// For the second test, please run a few of the random graph generators and look at the output.
-	// We recommend keeping the graphs fairly small for this test.
+	// We recommend keeping the graphs fairly small for this test, to make the outputs more readable.
 	// If everything is going well then the generated graphs should be random each run.
-	// Are the outputs indeed random? Can you find a way to make some of them deterministic?
+	// Are the outputs indeed random when you rerun the code?
 
 	var run_test_random_graph_generator = false // Set this to true to run this test
 	if run_test_random_graph_generator {
@@ -75,15 +75,15 @@ func main() {
 	}
 
 	// >>> TEST 3 >>>
-	// For the third test, please generate some BIG graphs.
-	// By implementing these generators in Go, we can generate them at fairly high speeds
+	// For the third test, please generate some BIG graphs, for the FastGNPRandomGraph generator.
+	// Try 500, 1K, 5K, 10K and 100K nodes for the FastGNPRandomGraph algorithm with a probability of edge creation set to 0.1.
 	// How long does it take to run each generator? How big did you make the graphs?
 
-	var run_test_generator_speed = false // Set this to true to run this test
+	var run_test_generator_speed = true // Set this to true to run this test
 	if run_test_generator_speed {
 		fmt.Println("### Running test 3 ###")
 		start := time.Now()
-		model.FastGNPRandomGraph(10000, 0.1) // Edit this line
+		model.FastGNPRandomGraph(500, 0.1) // Edit this line
 		elapsed := time.Since(start)
 		fmt.Printf("Time taken: %s\n", elapsed)
 		fmt.Println()
@@ -119,9 +119,9 @@ func main() {
 	// PreservationTopKEdgeSampling
 
 	// >>> TEST 4 >>>
-	// As the name suggests, deletion graph samplers work by deleting parts of the input graph, yielding a smaller output graph.
-	// Please try out some of the deletion samplers (above) in the experiment below.
-	// Are the sampled graphs indeed smaller than the input graphs?
+	// As the name suggests, deletion graph samplers work by deleting parts of the input graph, yielding a smaller output graph. (Note that `sampler.SamplingStage(graph, howManyToDelete)` edits the input graph in place)
+	// Please try out all of the deletion samplers (above) in the experiment below.
+	// Do you have a decent understanding of how each method might work?
 
 	var run_test_deletion_sampler = false // Set this to true to run this test
 	if run_test_deletion_sampler {
@@ -150,9 +150,9 @@ func main() {
 	}
 
 	// >>> TEST 5 >>>
-	// Preservation graph samplers work by selecting parts to keep from the input graph, yielding a smaller output graph.
-	// Please try out some of the deletion samplers (above) in the experiment below.
-	// Are the sampled graphs indeed smaller than the input graphs?
+	// Preservation graph samplers work by selecting parts to keep from the input graph, yielding a smaller output graph. (Note that `sampler.Sample(*graph, sampledGraphSizeRatio)` outputs a new graph.)
+	// Please try out all of the preservation samplers (above) in the experiment below.
+	// Do you have a decent understanding of how each method might work?
 
 	var run_test_preservation_sampler = false // Set this to true to run this test
 	if run_test_preservation_sampler {
