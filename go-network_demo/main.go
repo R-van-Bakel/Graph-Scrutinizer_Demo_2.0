@@ -40,10 +40,22 @@ func main() {
 	// We recommend keeping the graphs fairly small for this test, to make the outputs more readable.
 	// Are the functions intuitive? Are the outputs interpretable?
 
-	var run_test__classic_graph_generator = false // Set this to true to run this test
+	var run_test__classic_graph_generator = true // Set this to true to run this test
 	if run_test__classic_graph_generator {
-		var classic_graph = model.CycleGraph(5) // Edit this line
+		model_name := "TuranGraph" // Edit this to test different classic graph generators, e.g. "CompleteGraph", "LadderGraph", "CircularLadderGraph", "WheelGraph", "TuranGraph", "TrivialGraph", "NullGraph", "TadpoleGraph", "StarGraph", "PathGraph", "LollipopGraph", "CycleGraph", "CirculantGraph"
 
+		var classic_graph *model.UndirectedGraph
+		var err error
+
+		if model_name == "CircularLadderGraph" || model_name == "TadpoleGraph" {
+			classic_graph, err = model.TadpoleGraph(10, 3) // Edit this line in the case of CircularLadderGraph or TadpoleGraph
+			if err != nil {
+				// handle it however you like
+				panic(err) // or log.Fatal(err)
+			}
+		} else {
+			classic_graph = model.TuranGraph(20, 5) // Edit this line for all other classic graph generators
+		}
 		fmt.Println("### Running test 1 ###")
 		fmt.Printf("Nodes: {")
 		for node := range classic_graph.Nodes {
@@ -62,7 +74,7 @@ func main() {
 
 	var run_test_random_graph_generator = false // Set this to true to run this test
 	if run_test_random_graph_generator {
-		var random_graph = model.FastGNPRandomGraph(5, 0.1) // Edit this line
+		var random_graph = model.WattsStrogatzRandomGraph(6, 2, 0.3) // Edit this line
 
 		fmt.Println("### Running test 2 ###")
 		fmt.Printf("Nodes: {")
@@ -79,11 +91,11 @@ func main() {
 	// Try 500, 1K, 5K, 10K and 100K nodes for the FastGNPRandomGraph algorithm with a probability of edge creation set to 0.1.
 	// How long does it take to run each generator? How big did you make the graphs?
 
-	var run_test_generator_speed = true // Set this to true to run this test
+	var run_test_generator_speed = false // Set this to true to run this test
 	if run_test_generator_speed {
 		fmt.Println("### Running test 3 ###")
 		start := time.Now()
-		model.FastGNPRandomGraph(500, 0.1) // Edit this line
+		model.FastGNPRandomGraph(100000, 0.1) // Edit this line
 		elapsed := time.Since(start)
 		fmt.Printf("Time taken: %s\n", elapsed)
 		fmt.Println()
@@ -117,6 +129,7 @@ func main() {
 	// PreservationRandomWalkWithJumpSampling
 	// PreservationRandomWalkWithRestartSampling
 	// PreservationTopKEdgeSampling
+	// PreservationTopRatioEdgeSampling
 
 	// >>> TEST 4 >>>
 	// As the name suggests, deletion graph samplers work by deleting parts of the input graph, yielding a smaller output graph. (Note that `sampler.SamplingStage(graph, howManyToDelete)` edits the input graph in place)
@@ -136,8 +149,8 @@ func main() {
 		fmt.Println(graph.Edges)
 		fmt.Println()
 
-		var howManyToDelete = 3                        // Edit this line to change how many "things" (e.g. node or edges, depending on the sampler) the sampler will delete.
-		sampler := &model.DeletionRandomNodeSampling{} // Edit this line to change the sampler. You can just copy-paste a deletion method from above
+		var howManyToDelete = 5                                   // Edit this line to change how many "things" (e.g. node or edges, depending on the sampler) the sampler will delete.
+		sampler := &model.DeletionRandomWalkWithRestartSampling{} // Edit this line to change the sampler. You can just copy-paste a deletion method from above
 		sampler.SamplingStage(graph, howManyToDelete)
 		fmt.Println("Sampled Graph:")
 		fmt.Printf("Nodes: {")
@@ -157,7 +170,8 @@ func main() {
 	var run_test_preservation_sampler = false // Set this to true to run this test
 	if run_test_preservation_sampler {
 		fmt.Println("### Running test 5 ###")
-		var graph = model.CompleteGraph(8) // Edit this line to change the original graph that is created
+		var graph = model.CompleteGraph(10) // Edit this line to change the original graph that is created
+		//var graph = model.WheelGraph(10)
 		fmt.Println("Original Graph:")
 		fmt.Printf("Nodes: {")
 		for node := range graph.Nodes {
@@ -167,8 +181,8 @@ func main() {
 		fmt.Println(graph.Edges)
 		fmt.Println()
 
-		var sampledGraphSizeRatio = float32(0.3)           // Edit this line to change how much smaller the sample should be, compared to the original graph
-		sampler := &model.PreservationRandomNodeSampling{} // Edit this line to change the sampler
+		var sampledGraphSizeRatio = float32(0.3)             // Edit this line to change how much smaller the sample should be, compared to the original graph
+		sampler := &model.PreservationTopRatioEdgeSampling{} // Edit this line to change the sampler
 		var sampled_graph, _ = sampler.Sample(*graph, sampledGraphSizeRatio)
 		fmt.Println("Sampled Graph:")
 		fmt.Printf("Nodes: {")
